@@ -6,6 +6,8 @@ win 下载地址  https://github.com/yymmhh/hotswoole/blob/master/hostswoole.exe
 
 mac 下载地址  https://github.com/yymmhh/hotswoole/blob/master/hotswoole
 
+linux 下载地址  https://github.com/yymmhh/hotswoole/blob/master/linux/hostswoole
+
 先后台运行 laravels 的启动
 
     bin/laravels start &
