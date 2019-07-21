@@ -2,6 +2,10 @@
 
 用作swoole 的重启
 
+win 下载地址  https://github.com/yymmhh/hotswoole/blob/master/hostswoole.exe
+
+mac 下载地址  https://github.com/yymmhh/hotswoole/blob/master/hotswoole
+
 先后台运行 laravels 的启动
 
     bin/laravels start &
@@ -31,3 +35,9 @@
     export hotswoole=/Volumes/E/www/go/src/wl_HotSwoole
     
     export PATH=$PATH:$GOBIN:$GOROOT:$GOTOOLDIR:$php:$hotswoole
+
+
+运行 成功
+<img src="https://github.com/yymmhh/hotswoole/blob/master/QQ20190721-170909.png"/>
+
+修改了php 文件 即刻 重新运行命令
