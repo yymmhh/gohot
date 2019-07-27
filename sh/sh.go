@@ -15,6 +15,8 @@ import (
 //读取重启命令
 func readSh() string {
 	data, err := ioutil.ReadFile("./reload.sh")
+	path := ReadConf("listenDir")["path"]
+
 	if err != nil {
 
 		fmt.Println("读取命令失败!", err)
@@ -22,8 +24,15 @@ func readSh() string {
 		defer color.Unset()
 
 	}
+	var shData string=string(data)
 
-	return string(data)
+	if php2go.Empty(path) { //如果配置文件为空 就获取当前目录
+		path,_= os.Getwd()
+		shData = path + shData
+	}
+	fmt.Println("执行命令"+shData)
+
+	return shData
 }
 
 func ReloadSwoole() {

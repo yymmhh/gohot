@@ -2,12 +2,20 @@
 
 
 [[projects]]
-  digest = "1:57aad2584efe9d5608b7cf5641fc39cbe820af0e9462ce5b28c88de0ec443051"
-  name = "github.com/bitly/go-simplejson"
+  branch = "master"
+  digest = "1:2121d6a24377175707e73bb3d4f78d4511b87abfe93a02824eb1390b5bc2a293"
+  name = "github.com/Unknwon/goconfig"
   packages = ["."]
   pruneopts = "UT"
-  revision = "9002e63233f996404e710b9b29f53919c996d7ed"
-  version = "v0.4.3"
+  revision = "3dba17dd7b9ec8509b3621a73a30a4b333eb28da"
+
+[[projects]]
+  digest = "1:fa00ec82372ac464a5d43cd483ea555b7f84681eff44cb9083a08dbd2ca7e01e"
+  name = "github.com/fatih/color"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "1b35f289c47d5c73c398cea8e006b7bcb6234a96"
+  version = "v0.1"
 
 [[projects]]
   digest = "1:cb12ab9443677acf9b15dbcb144dbb87a50883571f9d012b7d7a40c16e875e80"
@@ -16,6 +24,14 @@
   pruneopts = "UT"
   revision = "836bfd95fecc0f1511dd66bdbf2b5b61ab8b00b6"
   version = "v1.2.11"
+
+[[projects]]
+  branch = "master"
+  digest = "1:44fbfce27cb96b7d20217634af466093485a3e8132820acbe95949cb64e7fc60"
+  name = "github.com/shiena/ansicolor"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "a422bbe96644373c5753384a59d678f7d261ff10"
 
 [[projects]]
   digest = "1:066e89eab29cf68e142d23cb72e0b989a5122846adfd09a968113eafd03a65ba"
@@ -29,7 +45,8 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/bitly/go-simplejson",
+    "github.com/Unknwon/goconfig",
+    "github.com/fatih/color",
     "github.com/fsnotify/fsnotify",
     "github.com/syyongx/php2go",
   ]

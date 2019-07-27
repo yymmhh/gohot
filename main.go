@@ -2,35 +2,21 @@ package main
 
 import (
 	"fmt"
-	"github.com/Unknwon/goconfig"
 	"github.com/fsnotify/fsnotify"
 	"github.com/syyongx/php2go"
-	"hello/services/watch/sh"
 	"log"
+	"os"
 	"strings"
+	"wl_GoHot/sh"
 )
 
-var countChan = make(chan int, 0)
-
-func fibonacci(c, quit chan int) {
-	x, y := 0, 1
-	for {
-		select {
-		case c <- x:
-			x, y = y, x+y
-		case <-quit:
-			fmt.Println("quit")
-			return
-		}
-	}
-}
 
 //读取监听文件
 func readFile() []string {
-	path := readConf("listenDir")["path"]
+	path := sh.ReadConf("listenDir")["path"]
 
 	if php2go.Empty(path) { //如果配置文件为空 就获取当前目录
-		path = sh.GetCurrentDirectory()
+		path,_= os.Getwd()
 	}
 
 	fmt.Printf("\n %c[1;40;44m%s%c[0m\n\n", 0x1B, "监听目录"+path, 0x1B)
@@ -41,7 +27,7 @@ func readFile() []string {
 
 	}
 
-	less := readConf("ellipsisDir")
+	less := sh.ReadConf("ellipsisDir")
 
 	listenDirs := []string{}
 
@@ -72,23 +58,14 @@ func readFile() []string {
 
 }
 
-//读取配置文件
-func readConf(section string) map[string]string {
-	cfg, err := goconfig.LoadConfigFile("conf.ini")
-	if err != nil {
-		panic("错误")
-	}
 
-	sec, err := cfg.GetSection(section)
-
-	return sec
-
-}
 func main() {
 
 	runPHP()
 
 }
+
+
 
 func runPHP() {
 
@@ -98,7 +75,7 @@ func runPHP() {
 	} else {
 
 		fmt.Printf("\n %c[1;40;32m%s%c[0m\n\n", 0x1B, ""+
-			"  WL_HotSwoole   \n"+
+			"  Wl_GoHot   \n"+
 			"     V 1.0       \n"+
 			" ====开始运行===== "+
 			"", 0x1B)
@@ -119,14 +96,14 @@ func runPHP() {
 					name := event.String()
 
 					//是否输出变动的文件
-					if readConf("listenDir")["ShowLog"] == "true" {
+					if sh.ReadConf("listenDir")["ShowLog"] == "true" {
 						fmt.Println(name)
 					}
 
 					var index int = -1
 					var isHave bool = false
 
-					for _, v := range readConf("ellipsisFile") {
+					for _, v := range sh.ReadConf("ellipsisFile") {
 						index = strings.Index(name, v)
 						if index == -1 { //没匹配
 							isHave = false

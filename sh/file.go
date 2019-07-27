@@ -3,6 +3,7 @@ package sh
 import (
 	"log"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 )
@@ -33,6 +34,27 @@ func substr(s string, pos, length int) string {
 	}
 	return string(runes[pos:l])
 }
+
+//获取程序的目录
+func GetCurrentPath() string {
+	file, err := exec.LookPath(os.Args[0])
+	if err != nil {
+		return ""
+	}
+	path, err := filepath.Abs(file)
+	if err != nil {
+		return ""
+	}
+	i := strings.LastIndex(path, "/")
+	if i < 0 {
+		i = strings.LastIndex(path, "\\")
+	}
+	if i < 0 {
+		return ""
+	}
+	return string(path[0 : i+1])
+}
+//获取当前执行的目录
 func GetCurrentDirectory() string {
 	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
 	if err != nil {
