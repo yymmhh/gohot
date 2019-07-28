@@ -60,6 +60,10 @@ func readFile() []string {
 
 
 func main() {
+	//协程不影响后头运行
+	go func() {
+		sh.StartSwoole()
+	}()
 
 	runPHP()
 
@@ -68,6 +72,7 @@ func main() {
 
 
 func runPHP() {
+
 
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {

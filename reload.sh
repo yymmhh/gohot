@@ -1,2 +1,2 @@
-clear ;
-/bin/laravels reload
+/bin/laravels reload;
+clear

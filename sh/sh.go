@@ -12,9 +12,9 @@ import (
 	"strings"
 )
 
-//读取重启命令
-func readSh() string {
-	data, err := ioutil.ReadFile("./reload.sh")
+//读取命令,并且执行,是否拼接当前目录
+func readAndRunSh(fileName string,currentPath bool)  {
+	data, err := ioutil.ReadFile(GetCurrentPath()+fileName)
 	path := ReadConf("listenDir")["path"]
 
 	if err != nil {
@@ -26,22 +26,30 @@ func readSh() string {
 	}
 	var shData string=string(data)
 
-	if php2go.Empty(path) { //如果配置文件为空 就获取当前目录
+	//配置文件中监听目录为空,并且拼接当前目录
+	if php2go.Empty(path) && currentPath==true { //如果配置文件为空 就获取当前目录
 		path,_= os.Getwd()
 		shData = path + shData
-	}
-	fmt.Println("执行命令"+shData)
 
-	return shData
+	}
+
+	command := "/bin/bash"
+	params := []string{"-c", shData}
+
+	execCommand(command, params)
+
+}
+//开始运行时候就启动laravels
+
+func StartSwoole()  {
+	readAndRunSh("start.sh",true)
+
 }
 
 func ReloadSwoole() {
-	sh := readSh()
 
-	command := "/bin/bash"
-	params := []string{"-c", sh}
+	readAndRunSh("reload.sh",true)
 
-	execCommand(command, params)
 
 }
 
