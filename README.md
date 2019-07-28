@@ -1,12 +1,11 @@
-# hotswoole
+# wl_gohot
 
-用作swoole 的重启
+用作swoole laravels 的重启
 
-win 下载地址  https://github.com/yymmhh/hotswoole/blob/master/hostswoole.exe
 
-mac 下载地址  https://github.com/yymmhh/hotswoole/blob/master/hotswoole
+<!-- mac 下载地址  https://github.com/yymmhh/hotswoole/blob/master/hotswoole
 
-linux 下载地址  https://github.com/yymmhh/hotswoole/blob/master/linux/hostswoole
+linux 下载地址  https://github.com/yymmhh/hotswoole/blob/master/linux/hostswoole -->
 
 先后台运行 laravels 的启动
 
