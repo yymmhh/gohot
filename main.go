@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
+	"github.com/fatih/color"
 	"github.com/fsnotify/fsnotify"
 	"github.com/syyongx/php2go"
+	"gohot/sh"
 	"log"
 	"os"
 	"strings"
-	"wl_GoHot/sh"
 )
 
 
@@ -61,9 +62,9 @@ func readFile() []string {
 
 func main() {
 	//协程不影响后头运行
-	go func() {
-		sh.StartSwoole()
-	}()
+	//go func() {
+	//	sh.StartSwoole()
+	//}()
 
 	runPHP()
 
@@ -94,7 +95,7 @@ func runPHP() {
 		for {
 			select {
 			case event := <-watcher.Events:
-				//log.Println("event:", event)
+				log.Println("event:", event)
 				if event.Op&fsnotify.Write == fsnotify.Write || event.Op&fsnotify.Create == fsnotify.Create {
 					//log.Println("modified/**/ file:", event.Name)
 
@@ -139,6 +140,10 @@ func runPHP() {
 	}
 
 	if err != nil {
+		fmt.Println("出错了,添加的目录太多导致的...!", err)
+		color.Set(color.BgRed, color.Bold)
+		defer color.Unset()
+
 		log.Fatal(err)
 	}
 
