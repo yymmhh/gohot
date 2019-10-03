@@ -2,22 +2,22 @@ package main
 
 import (
 	"fmt"
-	"github.com/fatih/color"
-	"github.com/fsnotify/fsnotify"
-	"github.com/syyongx/php2go"
 	"gohot/sh"
 	"log"
 	"os"
 	"strings"
-)
 
+	"github.com/fatih/color"
+	"github.com/fsnotify/fsnotify"
+	"github.com/syyongx/php2go"
+)
 
 //读取监听文件
 func readFile() []string {
 	path := sh.ReadConf("listenDir")["path"]
 
 	if php2go.Empty(path) { //如果配置文件为空 就获取当前目录
-		path,_= os.Getwd()
+		path, _ = os.Getwd()
 	}
 
 	fmt.Printf("\n %c[1;40;44m%s%c[0m\n\n", 0x1B, "监听目录"+path, 0x1B)
@@ -59,21 +59,17 @@ func readFile() []string {
 
 }
 
-
 func main() {
 	//协程不影响后头运行
-	//go func() {
-	//	sh.StartSwoole()
-	//}()
+	go func() {
+		sh.StartSwoole()
+	}()
 
 	runPHP()
 
 }
 
-
-
 func runPHP() {
-
 
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
@@ -95,7 +91,7 @@ func runPHP() {
 		for {
 			select {
 			case event := <-watcher.Events:
-				log.Println("event:", event)
+
 				if event.Op&fsnotify.Write == fsnotify.Write || event.Op&fsnotify.Create == fsnotify.Create {
 					//log.Println("modified/**/ file:", event.Name)
 
