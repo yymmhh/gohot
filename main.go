@@ -2,14 +2,13 @@ package main
 
 import (
 	"fmt"
+	"github.com/fatih/color"
+	"github.com/fsnotify/fsnotify"
+	"github.com/syyongx/php2go"
 	"gohot/sh"
 	"log"
 	"os"
 	"strings"
-
-	"github.com/fatih/color"
-	"github.com/fsnotify/fsnotify"
-	"github.com/syyongx/php2go"
 )
 
 //读取监听文件
@@ -59,17 +58,44 @@ func readFile() []string {
 
 }
 
+//读取管道中个数然后准备重启
+func RunChan(ch chan int) {
+
+	for {
+		select {
+		case _ = <-ch:
+
+			if len(ch) > 1 { //消耗掉
+				continue
+			}
+
+			if sh.ReadConf("listenDir")["ShowLog"] == "true" {
+				fmt.Println("管道剩余个数", len(ch))
+			}
+
+			reload()
+			php2go.Sleep(1)
+		}
+	}
+}
+
 func main() {
+	LoadCountChan := make(chan int, 100)
+
 	//协程不影响后头运行
 	go func() {
 		sh.StartSwoole()
 	}()
 
-	runPHP()
+	//启动管道监听
+	go RunChan(LoadCountChan)
+
+	//启动文件监听
+	runPHP(LoadCountChan)
 
 }
 
-func runPHP() {
+func runPHP(loadChan chan int) {
 
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
@@ -78,7 +104,7 @@ func runPHP() {
 
 		fmt.Printf("\n %c[1;40;32m%s%c[0m\n\n", 0x1B, ""+
 			"  Wl_GoHot   \n"+
-			"     V 1.0       \n"+
+			"     V 1.1       \n"+
 			" ====开始运行===== "+
 			"", 0x1B)
 	}
@@ -118,7 +144,11 @@ func runPHP() {
 
 					if isHave == false {
 
-						reload()
+						loadChan <- php2go.Rand(1, 10) //写入管道
+
+						if sh.ReadConf("listenDir")["ShowLog"] == "true" {
+							fmt.Println("写入管道成功,此时管道个数", len(loadChan))
+						}
 
 					}
 

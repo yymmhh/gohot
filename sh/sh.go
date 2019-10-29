@@ -13,8 +13,8 @@ import (
 )
 
 //读取命令,并且执行,是否拼接当前目录
-func readAndRunSh(fileName string,currentPath bool)  {
-	data, err := ioutil.ReadFile(GetCurrentPath()+fileName)
+func readAndRunSh(fileName string, currentPath bool) {
+	data, err := ioutil.ReadFile(GetCurrentPath() + fileName)
 	path := ReadConf("listenDir")["path"]
 
 	if err != nil {
@@ -24,11 +24,11 @@ func readAndRunSh(fileName string,currentPath bool)  {
 		defer color.Unset()
 
 	}
-	var shData string=string(data)
+	var shData string = string(data)
 
 	//配置文件中监听目录为空,并且拼接当前目录
-	if php2go.Empty(path) && currentPath==true { //如果配置文件为空 就获取当前目录
-		path,_= os.Getwd()
+	if php2go.Empty(path) && currentPath == true { //如果配置文件为空 就获取当前目录
+		path, _ = os.Getwd()
 		shData = path + shData
 
 	}
@@ -39,17 +39,29 @@ func readAndRunSh(fileName string,currentPath bool)  {
 	execCommand(command, params)
 
 }
+
 //开始运行时候就启动laravels
 
-func StartSwoole()  {
-	readAndRunSh("start.sh",true)
+func StartSwoole() {
+	readAndRunSh("start.sh", true)
 
 }
 
+var LoadCount int
+
+var LoadCountChan chan int
+
 func ReloadSwoole() {
+	LoadCount++
 
-	readAndRunSh("reload.sh",true)
+	if LoadCount > 5 {
+		fmt.Println("休息一下")
+		php2go.Sleep(1)
+		LoadCount = 0
+	}
 
+	readAndRunSh("reload.sh", true)
+	LoadCount--
 
 }
 

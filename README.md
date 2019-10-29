@@ -34,6 +34,11 @@
 运行时会自动启动laravels
 
 运行 成功
-<img src="https://github.com/yymmhh/hotswoole/blob/master/QQ20190721-170909.png"/>
+<img src="https://github.com/yymmhh/hotswoole/blob/master/show.png"/>
 
 修改了php 文件 即刻 重新运行命令
+
+
+======
+2019-10-29 
+    加入协程管道重启
