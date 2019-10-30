@@ -22,6 +22,10 @@
 
 重启的命令在  reload.sh    
 
+懒人安装
+
+    wget -O install.sh http://zp.wlphp.cn/install.sh && sudo sh install.sh
+
 需要加入环境变量
 
     export gohot=/Volumes/E/www/go/src/gohot
@@ -34,7 +38,7 @@
 运行时会自动启动laravels
 
 运行 成功
-<img src="https://github.com/yymmhh/hotswoole/blob/master/show.png"/>
+<img src="http://cxt.cdn.wlphp.cn/gohot_show.png"/>
 
 修改了php 文件 即刻 重新运行命令
 
