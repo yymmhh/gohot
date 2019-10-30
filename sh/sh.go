@@ -14,7 +14,7 @@ import (
 
 //读取命令,并且执行,是否拼接当前目录
 func readAndRunSh(fileName string, currentPath bool) {
-	data, err := ioutil.ReadFile(GetCurrentPath() + fileName)
+	data, err := ioutil.ReadFile(GetRealPath() + fileName)
 	path := ReadConf("listenDir")["path"]
 
 	if err != nil {

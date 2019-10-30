@@ -42,3 +42,12 @@
 ======
 2019-10-29 
     加入协程管道重启
+    
+    
+编译指令
+
+    go build -o gohot main.go
+
+交叉编译
+
+    CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o test_linux_x64 runIP.go

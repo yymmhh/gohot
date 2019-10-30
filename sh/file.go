@@ -54,6 +54,7 @@ func GetCurrentPath() string {
 	}
 	return string(path[0 : i+1])
 }
+
 //获取当前执行的目录
 func GetCurrentDirectory() string {
 	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
@@ -61,4 +62,24 @@ func GetCurrentDirectory() string {
 		log.Fatal(err)
 	}
 	return strings.Replace(dir, "\\", "/", -1)
+}
+
+//获取真实的目录,软链接的情况下
+func GetRealPath() string {
+	ex, err := os.Executable()
+	if err != nil {
+		panic(err)
+	}
+
+	//	获取执行文件所在目录
+	exPath := filepath.Dir(ex)
+
+	// 使用EvalSymlinks获取真是路径
+	realPath, err := filepath.EvalSymlinks(exPath)
+	if err != nil {
+		panic(err)
+	}
+
+	return realPath + "/"
+
 }

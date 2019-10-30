@@ -105,6 +105,7 @@ func runPHP(loadChan chan int) {
 		fmt.Printf("\n %c[1;40;32m%s%c[0m\n\n", 0x1B, ""+
 			"  Wl_GoHot   \n"+
 			"     V 1.1       \n"+
+			"  Author:yymmhh"+
 			" ====开始运行===== "+
 			"", 0x1B)
 	}
