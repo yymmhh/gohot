@@ -14,9 +14,9 @@ import (
 
 //读取命令,并且执行,是否拼接当前目录
 func readAndRunSh(fileName string, currentPath bool) {
-	data, err := ioutil.ReadFile(GetRealPath() + fileName)
 	path := ReadConf("listenDir")["path"]
 
+	data, err := ioutil.ReadFile(GetRealPath() + fileName)
 	if err != nil {
 
 		fmt.Println("读取命令失败!", err)
@@ -65,6 +65,12 @@ func ReloadSwoole() {
 
 }
 
+//重启
+func Reload() {
+	ReloadSwoole()
+}
+
+
 var contentArray = make([]string, 0, 5)
 
 //进行Action
@@ -98,4 +104,13 @@ func execCommand(commandName string, params []string) bool {
 
 	cmd.Wait()
 	return true
+}
+
+func ShowAuthor()  {
+	fmt.Printf("\n %c[1;40;32m%s%c[0m\n\n", 0x1B, ""+
+		"  Wl_GoHot   \n"+
+		"     V 1.1       \n"+
+		"  Author:yymmhh\n"+
+		" ====开始运行===== "+
+		"", 0x1B)
 }
