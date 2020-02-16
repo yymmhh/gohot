@@ -55,3 +55,14 @@
 交叉编译
 
     CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o test_linux_x64 runIP.go
+    
+    
+======
+2020-02-16
+    大部分代码重构,变为只监听配置的目录的变化
+
+
+启动时候遇到 too many open files 或者打开文件过多的问题
+  https://github.com/yymmhh/gohot/issues/3 
+
+    
