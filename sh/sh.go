@@ -9,11 +9,12 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
+	"strconv"
 	"strings"
 )
 
 //读取命令,并且执行,是否拼接当前目录
-func readAndRunSh(fileName string, currentPath bool) {
+func readAndRunSh(fileName string, currentPath bool, console bool) {
 	path := ReadConf("listenDir")["path"]
 
 	data, err := ioutil.ReadFile(GetRealPath() + fileName)
@@ -36,15 +37,30 @@ func readAndRunSh(fileName string, currentPath bool) {
 	command := "/bin/bash"
 	params := []string{"-c", shData}
 
-	execCommand(command, params)
+	execCommand(command, params, console)
 
 }
 
 //开始运行时候就启动laravels
 
 func StartSwoole() {
-	readAndRunSh("start.sh", true)
+	readAndRunSh("start.sh", true, true)
 
+}
+
+//启动定时任务
+func StartCrobTable() {
+	if ReadConf("Settings")["open"] == "false" {
+		return
+	}
+	debug, _ := strconv.ParseBool(ReadConf("Settings")["debug"])
+	time, _ := strconv.ParseInt(ReadConf("Settings")["CronTableTime"], 10, 64)
+
+	for {
+		readAndRunSh("crontable.sh", true, debug)
+		php2go.Sleep(time)
+
+	}
 }
 
 var LoadCount int
@@ -60,7 +76,7 @@ func ReloadSwoole() {
 		LoadCount = 0
 	}
 
-	readAndRunSh("reload.sh", true)
+	readAndRunSh("reload.sh", true, true)
 	LoadCount--
 
 }
@@ -70,15 +86,16 @@ func Reload() {
 	ReloadSwoole()
 }
 
-
 var contentArray = make([]string, 0, 5)
 
 //进行Action
-func execCommand(commandName string, params []string) bool {
+func execCommand(commandName string, params []string, console bool) bool {
 	contentArray = contentArray[0:0]
 	cmd := exec.Command(commandName, params...)
 	//显示运行的命令
-	fmt.Printf("执行命令: %s\n", strings.Join(cmd.Args[1:], " "))
+	if console == true {
+		fmt.Printf("执行命令: %s\n", strings.Join(cmd.Args[1:], " "))
+	}
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "error=>", err.Error())
@@ -106,7 +123,7 @@ func execCommand(commandName string, params []string) bool {
 	return true
 }
 
-func ShowAuthor()  {
+func ShowAuthor() {
 	fmt.Printf("\n %c[1;40;32m%s%c[0m\n\n", 0x1B, ""+
 		"  Wl_GoHot   \n"+
 		"     V 1.1       \n"+

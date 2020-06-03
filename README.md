@@ -64,5 +64,14 @@
 
 启动时候遇到 too many open files 或者打开文件过多的问题
   https://github.com/yymmhh/gohot/issues/3 
+  
+  
+定时任务 
+  在crontable.sh 里面
+  
+  配置项目的Settings
+  CronTableTime 是多少秒执行一次
+  
+  open 是否开启
 
     
